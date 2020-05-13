@@ -18,27 +18,27 @@ CREATE TABLE meibo(
         REFERENCES gender(gender_type) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT ck_gender_type CHECK ( gender_type IN ('MALE', 'FEMALE') )
 );
-CREATE SEQUENCE subject_id_seq;
-CREATE TABLE subject(
-    id integer NOT NULL DEFAULT nextval('subject_id_seq'),
+CREATE SEQUENCE subjects_id_seq;
+CREATE TABLE subjects(
+    id integer NOT NULL DEFAULT nextval('subjects_id_seq'),
     name varchar(255) NOT NULL,
     created_at timestamp without time zone NOT NULL DEFAULT now(),
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
-    CONSTRAINT pk_subject PRIMARY KEY (id)
+    CONSTRAINT pk_subjects PRIMARY KEY (id)
 );
 CREATE SEQUENCE points_id_seq;
 CREATE TABLE points(
     id integer NOT NULL DEFAULT nextval('points_id_seq'),
     student_id integer NOT NULL,
-    subject_id integer NOT NULL,
+    subjects_id integer NOT NULL,
     points integer NOT NULL,
     created_at timestamp without time zone NOT NULL DEFAULT now(),
     updated_at timestamp without time zone NOT NULL DEFAULT now(),
     CONSTRAINT pk_points PRIMARY KEY (id),
     CONSTRAINT fk_student_id FOREIGN KEY (student_id)
         REFERENCES meibo(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT fk_subject_id FOREIGN KEY (subject_id)
-        REFERENCES subject(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT fk_subjects_id FOREIGN KEY (subjects_id)
+        REFERENCES subjects(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 INSERT INTO gender(gender_type, gender_name) VALUES
@@ -80,14 +80,14 @@ SELECT meibo.id, meibo.last_name, meibo.first_name, meibo.gender_type
 *  10 | 山野      | 美穂       | FEMALE
 */
 
-INSERT INTO subject(name) VALUES
+INSERT INTO subjects(name) VALUES
     ('Java'),
     ('RDBMS'),
     ('HTML/CSS'),
     ('JavaScript'),
     ('jQuery'),
     ('PhotoShop');
-SELECT subject.id, name FROM subject ORDER BY subject.id;
+SELECT subjects.id, name FROM subjects ORDER BY subjects.id;
 /*
 *  id |    name
 * ----+------------
@@ -99,7 +99,7 @@ SELECT subject.id, name FROM subject ORDER BY subject.id;
 *   6 | PhotoShop
 */
 
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 1, 45, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06'),
     (2, 1, 75, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06'),
     (3, 1, 80, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06'),
@@ -110,7 +110,7 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 1, 95, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06'),
     (9, 1, 85, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06'),
     (10, 1, 30, TIMESTAMP '2019-05-08 17:05:06', TIMESTAMP '2019-05-08 17:05:06');
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 3, 75, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32'),
     (2, 3, 65, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32'),
     (3, 3, 75, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32'),
@@ -121,7 +121,7 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 3, 85, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32'),
     (9, 3, 100, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32'),
     (10, 3, 85, TIMESTAMP '2019-05-13 16:45:32', TIMESTAMP '2019-05-13 16:45:32');
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 2, 85, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42'),
     (2, 2, 85, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42'),
     (3, 2, 95, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42'),
@@ -132,7 +132,7 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 2, 100, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42'),
     (9, 2, 70, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42'),
     (10, 2, 65, TIMESTAMP '2019-05-15 17:08:42', TIMESTAMP '2019-05-15 17:08:42');
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 1, 60, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12'),
     (2, 1, 75, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12'),
     (3, 1, 40, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12'),
@@ -142,7 +142,7 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 1, 25, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12'),
     (9, 1, 35, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12'),
     (10, 1, 40, TIMESTAMP '2019-05-22 16:56:12', TIMESTAMP '2019-05-22 16:56:12');
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 5, 80, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56'),
     (2, 5, 60, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56'),
     (3, 5, 55, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56'),
@@ -152,7 +152,7 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 5, 95, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56'),
     (9, 5, 50, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56'),
     (10, 5, 70, TIMESTAMP '2019-05-26 16:53:56', TIMESTAMP '2019-05-26 16:53:56');
-INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUES
+INSERT INTO points(student_id, subjects_id, points, created_at, updated_at) VALUES
     (1, 4, 80, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31'),
     (2, 4, 65, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31'),
     (3, 4, 85, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31'),
@@ -162,10 +162,10 @@ INSERT INTO points(student_id, subject_id, points, created_at, updated_at) VALUE
     (8, 4, 45, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31'),
     (9, 4, 70, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31'),
     (10, 4, 95, TIMESTAMP '2019-06-02 16:50:31', TIMESTAMP '2019-06-02 16:50:31');
-SELECT points.id, points.student_id, points.subject_id, points.points
+SELECT points.id, points.student_id, points.subjects_id, points.points
     FROM points ORDER BY points.id;
 /*
-*  id | student_id | subject_id | points
+*  id | student_id | subjects_id | points
 * ----+------------+------------+--------
 *   1 |          1 |          1 |     45
 *   2 |          2 |          1 |     75
@@ -247,13 +247,13 @@ SELECT meibo.id AS "生徒番号",
 *        10 | 山野 美穂   | 女性
 */
 
-SELECT subject.name AS "教科名",
+SELECT subjects.name AS "教科名",
     (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
     points.points AS "点数"
     FROM points
-    INNER JOIN subject ON points.subject_id = subject.id
+    INNER JOIN subjects ON points.subjects_id = subjects.id
     INNER JOIN meibo ON points.student_id = meibo.id
-    WHERE subject.name = 'HTML/CSS'
+    WHERE subjects.name = 'HTML/CSS'
     ORDER BY meibo.id;
 /*
 *   教科名  |  生徒氏名   | 点数
@@ -273,9 +273,9 @@ SELECT subject.name AS "教科名",
 SELECT u.name AS "教科名",
     SUM(u.points) AS "合計点"
     FROM (
-        SELECT subject.name, points.points
+        SELECT subjects.name, points.points
             FROM points
-            LEFT OUTER JOIN subject ON points.subject_id = subject.id
+            LEFT OUTER JOIN subjects ON points.subjects_id = subjects.id
     ) AS u
     GROUP BY u.name
     ORDER BY SUM(u.points) DESC, u.name;
