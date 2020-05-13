@@ -315,7 +315,7 @@ SELECT subjects.name AS "教科名",
     FROM points
     INNER JOIN subjects ON points.subjects_id = subjects.id
     INNER JOIN meibo ON points.student_id = meibo.id
-    WHERE subjects.name = 'Java'
+    WHERE subjects.name = 'HTML/CSS'
     ORDER BY meibo.id;
 /*
 *   教科名  |  生徒氏名   | 点数
