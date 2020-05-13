@@ -1,3 +1,6 @@
+CREATE SCHEMA prac_operator;
+SET search_path TO prac_operator;
+
 CREATE SEQUENCE meibo_id_seq;
 CREATE TABLE gender(
     gender_type varchar(6) NOT NULL,
