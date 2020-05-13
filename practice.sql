@@ -247,13 +247,72 @@ SELECT meibo.id AS "生徒番号",
 *        10 | 山野 美穂   | 女性
 */
 
+SELECT meibo.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    gender.gender_name AS "性別"
+    FROM meibo
+    INNER JOIN gender ON meibo.gender_type = gender.gender_type
+    WHERE meibo.first_name = '美穂'
+    ORDER BY id;
+/*
+*  生徒番号 | 生徒氏名  | 性別
+* ----------+-----------+------
+*         3 | 野上 美穂 | 女性
+*        10 | 山野 美穂 | 女性
+*/
+
+SELECT meibo.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    gender.gender_name AS "性別"
+    FROM meibo
+    INNER JOIN gender ON meibo.gender_type = gender.gender_type
+    WHERE meibo.last_name LIKE '%野%'
+    ORDER BY id;
+/*
+*  生徒番号 | 生徒氏名  | 性別
+* ----------+-----------+------
+*         3 | 野上 美穂 | 女性
+*        10 | 山野 美穂 | 女性
+*/
+
+SELECT meibo.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    gender.gender_name AS "性別"
+    FROM meibo
+    INNER JOIN gender ON meibo.gender_type = gender.gender_type
+    WHERE meibo.id IN (2, 3, 5, 7)
+    ORDER BY id;
+/*
+*  生徒番号 |  生徒氏名   | 性別
+* ----------+-------------+------
+*         2 | 新里 俊     | 男性
+*         3 | 野上 美穂   | 女性
+*         5 | 杉本 沙耶   | 女性
+*         7 | 城山 修一郎 | 男性
+*/
+
+SELECT meibo.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    gender.gender_name AS "性別"
+    FROM meibo
+    INNER JOIN gender ON meibo.gender_type = gender.gender_type
+    WHERE meibo.id BETWEEN 4 AND 6
+    ORDER BY id;
+/*
+*  生徒番号 |  生徒氏名   | 性別
+* ----------+-------------+------
+*         4 | 蓮沼 明夫   | 男性
+*         5 | 杉本 沙耶   | 女性
+*         6 | 園崎 恵里香 | 女性
+*/
+
 SELECT subjects.name AS "教科名",
     (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
     points.points AS "点数"
     FROM points
     INNER JOIN subjects ON points.subjects_id = subjects.id
     INNER JOIN meibo ON points.student_id = meibo.id
-    WHERE subjects.name = 'HTML/CSS'
+    WHERE subjects.name = 'Java'
     ORDER BY meibo.id;
 /*
 *   教科名  |  生徒氏名   | 点数
@@ -275,10 +334,10 @@ SELECT u.name AS "教科名",
     FROM (
         SELECT subjects.name, points.points
             FROM points
-            LEFT OUTER JOIN subjects ON points.subjects_id = subjects.id
+            RIGHT OUTER JOIN subjects ON points.subjects_id = subjects.id
     ) AS u
     GROUP BY u.name
-    ORDER BY SUM(u.points) DESC, u.name;
+    ORDER BY SUM(u.points) DESC NULLS LAST, u.name;
 /*
 *    教科名   | 合計点
 * ------------+--------
@@ -287,4 +346,5 @@ SELECT u.name AS "教科名",
 *  HTML/CSS   |    695
 *  JavaScript |    685
 *  jQuery     |    685
+*  PhotoShop  |
 */
