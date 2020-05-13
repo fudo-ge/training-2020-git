@@ -234,7 +234,7 @@ SELECT meibo.id AS "生徒番号",
     gender.gender_name AS "性別"
     FROM meibo
     INNER JOIN gender ON meibo.gender_type = gender.gender_type
-    ORDER BY id;
+    ORDER BY meibo.id;
 /*
 *  生徒番号 |  生徒氏名   | 性別
 * ----------+-------------+------
@@ -256,7 +256,7 @@ SELECT meibo.id AS "生徒番号",
     FROM meibo
     INNER JOIN gender ON meibo.gender_type = gender.gender_type
     WHERE meibo.first_name = '美穂'
-    ORDER BY id;
+    ORDER BY meibo.id;
 /*
 *  生徒番号 | 生徒氏名  | 性別
 * ----------+-----------+------
@@ -270,7 +270,7 @@ SELECT meibo.id AS "生徒番号",
     FROM meibo
     INNER JOIN gender ON meibo.gender_type = gender.gender_type
     WHERE meibo.last_name LIKE '%野%'
-    ORDER BY id;
+    ORDER BY meibo.id;
 /*
 *  生徒番号 | 生徒氏名  | 性別
 * ----------+-----------+------
@@ -284,7 +284,7 @@ SELECT meibo.id AS "生徒番号",
     FROM meibo
     INNER JOIN gender ON meibo.gender_type = gender.gender_type
     WHERE meibo.id IN (2, 3, 5, 7)
-    ORDER BY id;
+    ORDER BY meibo.id;
 /*
 *  生徒番号 |  生徒氏名   | 性別
 * ----------+-------------+------
@@ -300,7 +300,7 @@ SELECT meibo.id AS "生徒番号",
     FROM meibo
     INNER JOIN gender ON meibo.gender_type = gender.gender_type
     WHERE meibo.id BETWEEN 4 AND 6
-    ORDER BY id;
+    ORDER BY meibo.id;
 /*
 *  生徒番号 |  生徒氏名   | 性別
 * ----------+-------------+------
