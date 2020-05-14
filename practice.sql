@@ -259,6 +259,20 @@ CREATE TRIGGER trigger_update_gender
     FOR EACH ROW
     EXECUTE FUNCTION fnc_update_at();
 
+SELECT * FROM meibo WHERE id = 9;
+/*
+*  id | first_name | last_name | gender_type |         created_at         |         updated_at
+* ----+------------+-----------+-------------+----------------------------+----------------------------
+*   9 | 栄一       | 戸田      | MALE        | 2020-05-13 17:36:42.239044 | 2020-05-13 17:36:42.239044
+*/
+UPDATE meibo SET last_name = '真壁' WHERE id = 9;
+SELECT * FROM meibo WHERE id = 9;
+/*
+*  id | first_name | last_name | gender_type |         created_at         |         updated_at
+* ----+------------+-----------+-------------+----------------------------+----------------------------
+*   9 | 栄一       | 真壁      | MALE        | 2020-05-13 17:36:42.239044 | 2020-05-14 10:13:29.613715
+*/
+
 SELECT meibo.id AS "生徒番号",
     (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
     gender.gender_name AS "性別"
@@ -380,4 +394,34 @@ SELECT u.name AS "教科名",
 *  JavaScript |    685
 *  jQuery     |    685
 *  PhotoShop  |
+*/
+
+SELECT u.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    u.points AS "合計点"
+    FROM (
+        SELECT u.id AS id,
+            SUM(u.points) AS points
+            FROM (
+                SELECT meibo.id, points.points
+                    FROM points
+                    INNER JOIN meibo ON points.student_id = meibo.id
+            ) AS u
+            GROUP BY u.id
+    ) AS u
+    INNER JOIN meibo ON u.id = meibo.id
+    ORDER BY u.points DESC NULLS LAST, u.id;
+/*
+*  生徒番号 |  生徒氏名   | 合計点
+* ----------+-------------+--------
+*         5 | 杉本 沙耶   |    475
+*         4 | 蓮沼 明夫   |    450
+*         8 | 園崎 涼香   |    445
+*         3 | 野上 美穂   |    430
+*         1 | 岡本 陽介   |    425
+*         2 | 新里 俊     |    425
+*         9 | 戸田 栄一   |    410
+*         6 | 園崎 恵里香 |    385
+*        10 | 山野 美穂   |    385
+*         7 | 城山 修一郎 |    170
 */
