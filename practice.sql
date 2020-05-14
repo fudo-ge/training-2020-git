@@ -229,6 +229,36 @@ SELECT points.id, points.student_id, points.subjects_id, points.points
 *  57 |         10 |          4 |     95
 */
 
+CREATE FUNCTION fnc_update_at()
+RETURNS trigger
+AS $BODY$
+    BEGIN
+        NEW.updated_at := now();
+        RETURN NEW;
+    END;
+$BODY$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER trigger_update_gender
+    BEFORE UPDATE
+    ON gender
+    FOR EACH ROW
+    EXECUTE FUNCTION fnc_update_at();
+CREATE TRIGGER trigger_update_gender
+    BEFORE UPDATE
+    ON meibo
+    FOR EACH ROW
+    EXECUTE FUNCTION fnc_update_at();
+CREATE TRIGGER trigger_update_gender
+    BEFORE UPDATE
+    ON subjects
+    FOR EACH ROW
+    EXECUTE FUNCTION fnc_update_at();
+CREATE TRIGGER trigger_update_gender
+    BEFORE UPDATE
+    ON points
+    FOR EACH ROW
+    EXECUTE FUNCTION fnc_update_at();
+
 SELECT meibo.id AS "生徒番号",
     (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
     gender.gender_name AS "性別"
