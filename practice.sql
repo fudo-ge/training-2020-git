@@ -376,6 +376,26 @@ SELECT subjects.name AS "教科名",
 *  HTML/CSS | 山野 美穂   |   85
 */
 
+SELECT meibo.id AS "生徒番号",
+    (meibo.last_name || ' ' || meibo.first_name) AS "生徒氏名",
+    subjects.name AS "教科名",
+    points.points AS "点数"
+    FROM points
+    RIGHT OUTER JOIN subjects ON points.subjects_id = subjects.id
+    INNER JOIN meibo ON points.student_id = meibo.id
+    WHERE meibo.id = 1
+    ORDER BY meibo.id, subjects.id;
+/*
+*  生徒番号 | 生徒氏名  |   教科名   | 点数
+* ----------+-----------+------------+------
+*         1 | 岡本 陽介 | Java       |   60
+*         1 | 岡本 陽介 | Java       |   45
+*         1 | 岡本 陽介 | RDBMS      |   85
+*         1 | 岡本 陽介 | HTML/CSS   |   75
+*         1 | 岡本 陽介 | JavaScript |   80
+*         1 | 岡本 陽介 | jQuery     |   80
+*/
+
 SELECT u.name AS "教科名",
     SUM(u.points) AS "合計点"
     FROM (
